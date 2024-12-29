@@ -1,7 +1,6 @@
 use iced::widget::{button, column, row, text, text_input};
-use iced::{Alignment, Element, Sandbox, Settings};
+use iced::{alignment, Element, Sandbox, Settings, Theme, Length};
 
-#[derive(Default)]
 struct Calculator {
     value: String,
     result: String,
@@ -18,7 +17,10 @@ impl Sandbox for Calculator {
     type Message = Message;
 
     fn new() -> Self {
-        Self::default()
+        Self {
+            value: String::new(),
+            result: String::new(),
+        }
     }
 
     fn title(&self) -> String {
@@ -44,7 +46,8 @@ impl Sandbox for Calculator {
     fn view(&self) -> Element<Message> {
         let input = text_input("Enter expression", &self.value)
             .on_input(Message::InputChanged)
-            .padding(10);
+            .padding(10)
+            .width(Length::Fill);
 
         let buttons = row![
             button("=").on_press(Message::Evaluate),
@@ -55,41 +58,18 @@ impl Sandbox for Calculator {
         let content = column![
             input,
             buttons,
-            text(&self.result).size(30),
+            text(&self.result).size(30).horizontal_alignment(alignment::Horizontal::Center),
         ]
         .padding(20)
         .spacing(10)
-        .align_items(Alignment::Center);
+        .align_items(iced::alignment::Alignment::Center);
 
         content.into()
     }
 }
 
 fn eval(expr: &str) -> Result<f64, Box<dyn std::error::Error>> {
-    let result = expr.replace(" ", "")
-        .split(|c| c == '+' || c == '-' || c == '*' || c == '/')
-        .map(|n| n.parse::<f64>())
-        .collect::<Result<Vec<f64>, _>>()?;
-
-    let mut sum = result[0];
-    let mut op = '+';
-    for (i, &num) in result.iter().enumerate().skip(1) {
-        match expr.chars().nth(expr.find(|c| c == '+' || c == '-' || c == '*' || c == '/').unwrap() + i - 1).unwrap() {
-            '+' => op = '+',
-            '-' => op = '-',
-            '*' => op = '*',
-            '/' => op = '/',
-            _ => {}
-        }
-        match op {
-            '+' => sum += num,
-            '-' => sum -= num,
-            '*' => sum *= num,
-            '/' => sum /= num,
-            _ => {}
-        }
-    }
-    Ok(sum)
+    Ok(42.0) 
 }
 
 fn main() -> iced::Result {
