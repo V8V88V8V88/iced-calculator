@@ -75,3 +75,4 @@ fn eval(expr: &str) -> Result<f64, Box<dyn std::error::Error>> {
 fn main() -> iced::Result {
     Calculator::run(Settings::default())
 }
+
