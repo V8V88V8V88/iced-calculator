@@ -76,3 +76,4 @@ fn main() -> iced::Result {
     Calculator::run(Settings::default())
 }
 
+fn placeholder_function() {}
