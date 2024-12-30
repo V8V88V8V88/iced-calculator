@@ -1,7 +1,8 @@
 [package]
-name = "iced_calculator"
+name = "calculator_app"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
-iced = "0.13.1"
+iced = "0.13"
+iced_aw = "0.5" 
