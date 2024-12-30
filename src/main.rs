@@ -1,4 +1,4 @@
-use iced::widget::{button, column, container, row, text, text_input};
+use iced::widget::{button, column, container, text, text_input, Row};
 use iced::{Alignment, Element, Length, Sandbox, Settings};
 
 fn main() -> iced::Result {
@@ -77,19 +77,22 @@ impl Sandbox for Calculator {
 
         let button_rows: Vec<Element<_>> = buttons
             .iter()
-            .map(|row| {
-                let button_row = row.iter().map(|&key| {
-                    button(text(key).size(20))
-                        .padding(20)
-                        .on_press(Message::ButtonPressed(key))
-                        .into()
-                });
-
-                row(button_row)
-                    .spacing(5)
-                    .padding(5)
-                    .align_items(Alignment::Center)
-                    .into()
+            .map(|button_row| {
+                Row::with_children(
+                    button_row
+                        .iter()
+                        .map(|&key| {
+                            button(text(key).size(20))
+                                .padding(20)
+                                .on_press(Message::ButtonPressed(key))
+                                .into()
+                        })
+                        .collect(),
+                )
+                .spacing(5)
+                .padding(5)
+                .align_items(Alignment::Center)
+                .into()
             })
             .collect();
 
